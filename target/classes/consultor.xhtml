@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="index.xhtml">
+	<h:body>
+		<h:form>
+			<h1 style="text-align: center;">Bem vindo,
+				#{loginBean.usuario.usuario}!</h1>
+			<p:dataTable var="empresa" value="#{consultorView.empresalst}">
+				<p:column headerText="Nome">
+					<h:outputText value="#{empresa.nome}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Buscar"
+				action="#{consultorView.buscarEmpresas}" update="@form" ajax="false"
+				process="@this" />
+
+			<p:tabView orientation="left">
+				<p:tab title="Empresas">
+
+				</p:tab>
+				<p:tab title="Atividade">
+					<p:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel for="mask" value="Data:" />
+						<p:calendar id="mask" value="#{atividadeService.atividade.data}"
+							pattern="dd-MM-yyyy" mask="true" />
+						<p:outputLabel value="Area" id="inputA" />
+						<p:inputText value="#{atividadeService.atividade.area}" />
+						<p:outputLabel value="Programa" />
+						<p:inputText value="#{atividadeService.atividade.programa}" />
+						<p:outputLabel value="Ferramenta" />
+						<p:inputText value="#{atividadeService.atividade.ferramenta}" />
+						<p:outputLabel value="Atividades" />
+						<p:inputTextarea value="#{atividadeService.atividade.atividades}" />
+						<p:outputLabel value="Inicio" />
+						<p:calendar value="#{atividadeService.atividade.inicio}"
+							pattern="HH:mm" timeOnly="true" />
+						<p:outputLabel value="Fim" />
+						<p:calendar value="#{atividadeService.atividade.fim}"
+							pattern="HH:mm" timeOnly="true" />
+						<p:outputLabel value="Tempo" />
+						<p:calendar value="#{atividadeService.atividade.tempo}"
+							pattern="HH:mm" timeOnly="true" />
+						<p:outputLabel value="Tipo" />
+						<p:inputText value="#{atividadeService.atividade.tipo}" />
+						<h:outputText value="#{atividadeService.status.status}"
+							id="inputST" />
+						<p:commandButton value="Status" icon="fa fa-fw fa-search"
+							action="#{atividadeView.dialogoStatus}" process="@this"
+							ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{atividadeView.statusSelecionado}" process="@this"
+								update="inputST" />
+						</p:commandButton>
+						<h:outputText value="#{atividadeService.consultor.nome}"
+							id="inputCons" />
+						<p:commandButton value="Consultor" icon="fa fa-fw fa-search"
+							action="#{atividadeView.dialogoConsultor}" process="@this"
+							ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{atividadeView.consultorSelecionado}" process="@this"
+								update="inputCons" />
+						</p:commandButton>
+						<h:outputText value="#{atividadeService.empresa.nome}"
+							id="inputEmpr" />
+						<p:commandButton value="Empresa" icon="fa fa-fw fa-search"
+							action="#{atividadeView.dialogoEmpresa}" process="@this"
+							ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{atividadeView.empresaSelecionada}" process="@this"
+								update="inputEmpr" />
+						</p:commandButton>
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{atividadeService.add}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false" />
+						<p:commandButton value="Buscar"
+							action="#{atividadeView.dialogoBuscar}" icon="fa fa-fw fa-search"
+							process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{atividadeView.atividadeSelecionada}" process="@this"
+								update="inputA" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:tab>
+
+			</p:tabView>
+		</h:form>
+	</h:body>
+
+</ui:decorate>

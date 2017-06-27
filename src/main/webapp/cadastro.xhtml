@@ -1,0 +1,199 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="index.xhtml">
+	<h:head>
+
+	</h:head>
+	<h:body>
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:tabView orientation="left">
+				<p:tab title="Empresa">
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Nome" />
+						<p:inputText value="#{empresaService.empresa.nome}" id="empS" />
+						<h:outputText value="Cnpj" />
+						<p:inputText value="#{empresaService.empresa.cnpj}" />
+						<h:outputText value="#{empresaService.consultor.nome}" id="conS" />
+						<p:commandButton value="Consultor"
+							action="#{empresaView.abrirDialogoSelecao()}"
+							icon="ui-icon-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{empresaView.consultorSelecionado}" process="@this"
+								update="conS" />
+						</p:commandButton>
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{empresaService.add()}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false" />
+						<p:commandButton value="Empresa" icon="ui-icon-search"
+							action="#{empresaView.abrirDialogoBusca()}" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{empresaView.empresaSelecionada}" process="@this"
+								update="empS" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:tab>
+
+				<p:tab title="Pessoa">
+
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Nome" />
+						<p:inputText value="#{pessoaService.pessoa.nome}" id="inputP" />
+						<h:outputText value="E-mail" />
+						<p:inputText value="#{pessoaService.pessoa.email}" />
+						<h:outputText value="Telefone" />
+						<p:inputMask mask="(99) 9999-9999"
+							value="#{pessoaService.pessoa.telefone}" />
+						<h:outputText value="Whatsapp" />
+						<p:inputMask mask="(99) 99999-9999"
+							value="#{pessoaService.pessoa.whatsapp}" />
+						<h:outputText value="#{pessoaService.empresa.nome}" id="inputPE" />
+						<p:commandButton value="Empresa" icon="fa fa-fw fa-search"
+							action="#{pessoaView.dialogoEmpresa}" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{pessoaView.empresaSelecionada}" process="@this"
+								update="inputPE" />
+						</p:commandButton>
+						<h:outputText value="#{pessoaService.setores.nome}" id="inputPS" />
+						<p:commandButton value="Setor"
+							action="#{pessoaView.dialogoSetor()}" icon="fa fa-fw fa-search"
+							process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{pessoaView.setorSelecionado}" process="@this"
+								update="inputPS" />
+						</p:commandButton>
+						<h:outputText value="#{pessoaService.funcao.nome}" id="inputPF" />
+						<p:commandButton value="Função"
+							action="#{pessoaView.dialogoFuncao()}" icon="fa fa-fw fa-search"
+							process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{pessoaView.funcaoSelecionada}" process="@this"
+								update="inputPF" />
+						</p:commandButton>
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{pessoaService.add}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false" />
+						<p:commandButton value="Buscar"
+							action="#{pessoaView.abrirDialogoBusca()}"
+							icon="fa fa-fw fa-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{pessoaView.pessoaSelecionada}" process="@this"
+								update="inputP" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:tab>
+
+
+				<p:tab title="Função">
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Função" />
+						<p:inputText id="inputF" value="#{funcaoService.f.nome}" />
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{funcaoService.add()}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false" />
+						<p:commandButton value="Buscar"
+							action="#{funcaoView.abrirDialogoBusca()}"
+							icon="fa fa-fw fa-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{funcaoView.funcaoSelecionada}" process="@this"
+								update="inputF" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:tab>
+
+				<p:tab title="Setores">
+
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Setores" />
+						<p:inputText id="inputSet" value="#{setorService.st.nome}" />
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{setorService.add()}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false"/>
+						<p:commandButton value="Buscar"
+							action="#{setorView.abrirDialogoBusca()}"
+							icon="fa fa-fw fa-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{setorView.setorSelecionado}" process="@this"
+								update="inputSet" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:tab>
+
+				<p:tab title="Consultor">
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Nome" />
+						<p:inputText value="#{consultorService.consultor.nome}"
+							id="inputC" />
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{consultorService.addConsultor()}"
+							icon="fa fa-fw fa-retweet" process="@this" ajax="false"/>
+						<p:commandButton value="Buscar"
+							action="#{consultorView.abrirDialogoBusca()}"
+							icon="fa fa-fw fa-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{consultorView.consultorSelecionado}" process="@this"
+								update="inputC" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:tab>
+
+				<p:tab title="Usuario">
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Usuario" />
+						<p:inputText value="#{usuarioService.usuario.usuario}" id="inputU" />
+						<h:outputText value="Senha" />
+						<p:inputText value="#{usuarioService.usuario.senha}" />
+						<h:outputText value="Tipo" />
+						<p:selectOneMenu id="console"
+							value="#{usuarioService.usuario.tipo}" style="width:125px"
+							label="...">
+							<f:selectItem itemLabel="Cliente" itemValue="Cliente" />
+							<f:selectItem itemLabel="Consultor" itemValue="Consultor" />
+							<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+						</p:selectOneMenu>
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{usuarioService.add()}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false" />
+						<p:commandButton value="Buscar"
+							action="#{usuarioView.abrirDialogoBusca()}"
+							icon="fa fa-fw fa-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{usuarioView.usuarioSelecionado}" process="@this"
+								update="inputU" />
+						</p:commandButton>
+					</p:panelGrid>
+
+				</p:tab>
+
+				<p:tab title="Status">
+
+					<p:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Status" />
+						<p:inputText id="inputS" value="#{statusService.st.status}" />
+						<p:commandButton value="Cadastrar/Atualizar" update="@form"
+							action="#{statusService.addStatus()}" icon="fa fa-fw fa-retweet"
+							process="@this" ajax="false" />
+						<p:commandButton value="Buscar"
+							action="#{statusView.abrirDialogoBusca()}"
+							icon="fa fa-fw fa-search" process="@this" ajax="false">
+							<p:ajax event="dialogReturn"
+								listener="#{statusView.statusSelecionado}" process="@this"
+								update="inputS" />
+						</p:commandButton>
+
+					</p:panelGrid>
+
+				</p:tab>
+
+			</p:tabView>
+
+		</h:form>
+		
+	</h:body>
+</ui:decorate>

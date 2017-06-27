@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<title>Alterar/Remover Setor</title>
+</h:head>
+<h:body>
+
+	<h:form>
+		<h:panelGrid columns="2">
+		<p:inputText placeholder="Escreva aqui o setor..." />
+		<p:commandButton icon="fa fa-fw fa-search" value="Buscar" ajax="false" process="@this" action="#{setorView.buscar}" update="@form"/>
+		</h:panelGrid>
+		<hr />
+
+		<p:dataTable paginator="true" rows="6"
+			paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink}"
+			var="setor" value="#{setorView.lst}">
+			<p:column headerText="Setor">
+				<h:outputText value="#{setor.nome}" />
+			</p:column>
+
+			<p:column headerText="Data">
+				<h:outputText value="#{setor.criado}" />
+			</p:column>
+
+			<p:column headerText="">
+				<p:commandButton icon="fa fa-fw fa-edit"
+					action="#{setorView.selecionar(setor)}" update="@form" />
+			</p:column>
+
+			<p:column headerText="">
+				<p:commandButton icon="fa fa-fw fa-remove"
+					action="#{setorView.deletar(setor)}" update="@form">
+					<p:confirm header="Mensagem de confirmação!"
+						message="Tem certeza que deseja apagar este registro?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" update="@form"  styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check" />
+					<p:commandButton value="Não!" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<title>Alterar/Remover Atividade</title>
+</h:head>
+<h:body>
+
+	<h:form id="form">
+		<h:panelGrid columns="2">
+			<p:inputText placeholder="Escreva aqui a atividade..." />
+			<p:commandButton icon="fa fa-fw fa-search" value="Buscar"
+				ajax="false" process="@this" action="#{atividadeView.buscar}"
+				update="@form" />
+		</h:panelGrid>
+		<hr />
+
+		<p:dataTable paginator="true" rows="4"
+			paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink}"
+			var="atividade" value="#{atividadeView.lst}">
+			<p:column headerText="Empresa">
+				<h:outputText value="#{atividade.empresa.nome}" />
+			</p:column>
+
+			<p:column headerText="Inicio">
+				<h:outputText value="#{atividade.inicio}" />
+			</p:column>
+
+			<p:column headerText="Fim">
+				<h:outputText value="#{atividade.fim}" />
+			</p:column>
+
+			<p:column headerText="Detalhes">
+				<p:commandButton icon="fa fa-fw fa-search"
+					oncomplete="PF('dlg').show();" update=":form:atividadeDetail">
+					<f:setPropertyActionListener value="#{atividade}"
+						target="#{atividadeService.atividade}" />
+				</p:commandButton>
+			</p:column>
+
+			<p:column headerText="">
+				<p:commandButton icon="fa fa-fw fa-edit"
+					action="#{atividadeView.selecionar(atividade)}" update="@form" />
+			</p:column>
+
+			<p:column headerText="">
+				<p:commandButton icon="fa fa-fw fa-remove"
+					action="#{atividadeService.deletar(atividade)}" update="@form">
+					<p:confirm header="Mensagem de confirmação!"
+						message="Tem certeza que deseja apagar este registro?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" update="@form"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não!" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog fitViewport="true" header="Detalhes da Atividade" widgetVar="dlg" modal="true"
+			closeOnEscape="true" id="atividadeDetail">
+			<p:panelGrid columns="2">
+				<h:outputText value="Area" />
+				<h:outputText value="#{atividadeService.atividade.area}" />
+				<h:outputText value="Programa" />
+				<h:outputText value="#{atividadeService.atividade.programa}" />
+				<h:outputText value="Ferramenta" />
+				<h:outputText value="#{atividadeService.atividade.ferramenta}" />
+				<h:outputText value="Atividades" />
+				<p:inputTextarea readonly="true" value="#{atividadeService.atividade.atividades}" />
+				<h:outputText value="Tempo" />
+				<h:outputText value="#{atividadeService.atividade.tempo}" />
+				<h:outputText value="Tipo" />
+				<h:outputText value="#{atividadeService.atividade.tipo}" />
+				<h:outputText value="Status" />
+				<h:outputText value="#{atividadeService.atividade.status.status}" />
+				<h:outputText value="Consultor" />
+				<h:outputText value="#{atividadeService.atividade.consultor.nome}" />
+				<h:outputText value="Data" />
+				<h:outputText value="#{atividadeService.atividade.data}" />
+			</p:panelGrid>
+		</p:dialog>
+	</h:form>
+
+</h:body>
+</html>
